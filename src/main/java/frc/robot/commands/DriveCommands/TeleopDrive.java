@@ -70,7 +70,7 @@ public class TeleopDrive extends Command {
         //Square inputs for finer control at low speeds TEST OUT LATER
         //xPower = Math.copySign(xPower * xPower, xPower);
 
-        drive.drive(xPower, yPower, rotPower, true);
+        //drive.drive(xPower, yPower, rotPower, true);
     }
 
     // Called once the command ends or is interrupted.

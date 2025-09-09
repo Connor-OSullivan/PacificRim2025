@@ -155,7 +155,7 @@ public class RobotContainer {
         dpad_right.and(not_right_stick).onTrue(m_manipulator.runIntake(-0.9)).onFalse(m_manipulator.runIntake(0)); //run intake
         
         // Controller Triggers
-        left_trigger.onTrue(m_state.setGoalDriveCommand(DriveState.ReefAlign)).onFalse(m_state.setGoalDriveCommand(DriveState.ReefRelative));
+        //left_trigger.onTrue(m_state.setGoalDriveCommand(DriveState.ReefAlign)).onFalse(m_state.setGoalDriveCommand(DriveState.ReefRelative)); //CHECK
         //right_trigger.onTrue(new ScoreCoral(m_manipulator, m_DiffArm, m_state, m_poseEstimator)); // Score coral RECHECK
 
 
