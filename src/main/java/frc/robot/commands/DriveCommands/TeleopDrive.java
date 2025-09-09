@@ -39,9 +39,9 @@ public class TeleopDrive extends Command {
         poseEstimator = m_poseEstimator;
         driverController = m_driverController;
 
-        rotPid = m_drive.getRotPidController();
-        xPid = m_drive.getXPidController();
-        yPid = m_drive.getYPidController();
+        //rotPid = m_drive.getRotPidController();
+        //xPid = m_drive.getXPidController();
+        //yPid = m_drive.getYPidController();
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(m_drive);
@@ -76,6 +76,8 @@ public class TeleopDrive extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        System.out.println("Teleop Drive Ended");
+        drive.drive(0, 0, 0, true);
     }
 
     // Returns true when the command should end.

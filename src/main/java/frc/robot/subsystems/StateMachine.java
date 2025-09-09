@@ -89,165 +89,7 @@ public class StateMachine extends SubsystemBase {
     }
 
 
-    /*
-     * Graph Command Nodes
-     */
-    GraphCommandNode startPosition = m_graphCommand.new GraphCommandNode(
-        "StartPosition", 
-        new PrintCommand("Robot is at start position"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
     
-    GraphCommandNode preCoralIntake = m_graphCommand.new GraphCommandNode(
-        "PreCoralIntake", 
-        new PrintCommand("SendCommand to move into this position, for elevator then when safe move the extension out and rotatation"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    //Set in the main statemachine
-    GraphCommandNode intakeCoral = m_graphCommand.new GraphCommandNode(
-        "IntakeCoral",
-        new PrintCommand("Turn on the intake, wait until note is detected"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode safeCoralTravel = m_graphCommand.new GraphCommandNode(
-        "SafeCoralTravel",
-        new SafeTravel(diff, elevator, this),
-        setCurrentDriveStateCommand(DriveState.Teleop),
-        reachedElevManiGoalCommand());
-
-    GraphCommandNode l1Prep = m_graphCommand.new GraphCommandNode(
-        "L1Prep",
-        new PrintCommand("Move elevator to L1 prep position"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode l2Prep = m_graphCommand.new GraphCommandNode(
-        "L2Prep",
-        new PrintCommand("Move elevator to L2 prep position"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode l3Prep = m_graphCommand.new GraphCommandNode(
-        "L3Prep",
-        new PrintCommand("Move elevator to L3 prep position"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode l4Prep = m_graphCommand.new GraphCommandNode(
-        "L4Prep",
-        new PrintCommand("Move elevator to L4 prep position"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode scoreL1 = m_graphCommand.new GraphCommandNode(
-        "ScoreL1",
-        new PrintCommand("Get into final position and wait for the score command from driver"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode scoreL2 = m_graphCommand.new GraphCommandNode(
-        "ScoreL2",
-        new PrintCommand("Get into final position and wait for the score command from driver"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode scoreL3 = m_graphCommand.new GraphCommandNode(
-        "ScoreL3",
-        new PrintCommand("Get into final position and wait for the score command from driver"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode scoreL4 = m_graphCommand.new GraphCommandNode(
-        "ScoreL4",
-        new PrintCommand("Get into final position and wait for the score command from driver"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode l1PostScore = m_graphCommand.new GraphCommandNode(
-        "L1PostScore",
-        new PrintCommand("Get into safe position before going down to safe travel"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode l2PostScore = m_graphCommand.new GraphCommandNode(
-        "L2PostScore",
-        new PrintCommand("Get into safe position before going down to safe travel"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode l3PostScore = m_graphCommand.new GraphCommandNode(
-        "L3PostScore",
-        new PrintCommand("Get into safe position before going down to safe travel"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode l4PostScore = m_graphCommand.new GraphCommandNode( 
-        "L4PostScore",
-        new PrintCommand("Get into safe position before going down to safe travel"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode prepAlgaeIntake = m_graphCommand.new GraphCommandNode(
-        "PrepAlgaeIntake",
-        new PrintCommand("Get into position to intake algae"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode prepAlgaeL2 = m_graphCommand.new GraphCommandNode(
-        "PrepAlgaeL2",
-        new PrintCommand("Final position before intake algaeL2"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode prepAlgaeL3 = m_graphCommand.new GraphCommandNode(
-        "PrepAlgaeL3",
-        new PrintCommand("Final position before intake algaeL3"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));
-
-    GraphCommandNode safeAlgaeTravel = m_graphCommand.new GraphCommandNode(
-        "SafeAlgaeTravel",
-        new PrintCommand("Get into safe travel with algae position"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode scoreProssesor = m_graphCommand.new GraphCommandNode(
-        "ScoreProssesor",
-        new PrintCommand("Basicaly same as safe travel with algae postion"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode prepScoreBarge = m_graphCommand.new GraphCommandNode(
-        "PrepScoreBarge",
-        new PrintCommand("Get into position to score into barge"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode scoreBarge = m_graphCommand.new GraphCommandNode(
-        "ScoreBarge",
-        new PrintCommand("Final score barge position and wait for driver to hit score"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode climbPrep = m_graphCommand.new GraphCommandNode(
-        "ClimbPrep",
-        new PrintCommand("Get into position to preapare to engage climber out, after which it is enaged"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode climbReady = m_graphCommand.new GraphCommandNode(
-        "ClimbReady",
-        new PrintCommand("Once climber out robot is waiting for driver to hit climb command"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
-
-    GraphCommandNode cancelled = m_graphCommand.new GraphCommandNode(
-        "Cancelled",
-        new PrintCommand("Should cancel all of the running commands, stop the robot and get everything into safe travel position"),
-        new PrintCommand("Nothing"),
-        new PrintCommand("Nothing"));   
         
 
     //General State Variables
@@ -271,6 +113,34 @@ public class StateMachine extends SubsystemBase {
     private ElevatorManipulatorState goalElevManiState = ElevatorManipulatorState.StartPosition;
     private boolean elevManiTransitioning = false; //If elevatorManipulator is transitioning between states
 
+    private GraphCommandNode startPosition;
+    private GraphCommandNode preCoralIntake;
+    private GraphCommandNode safeCoralTravel;
+    private GraphCommandNode intakeCoral;
+    private GraphCommandNode l1Prep;
+    private GraphCommandNode l2Prep;
+    private GraphCommandNode l3Prep;
+    private GraphCommandNode l4Prep;
+    private GraphCommandNode scoreL1;
+    private GraphCommandNode scoreL2;
+    private GraphCommandNode scoreL3;
+    private GraphCommandNode scoreL4;
+    private GraphCommandNode l1PostScore;
+    private GraphCommandNode l2PostScore;
+    private GraphCommandNode l3PostScore;
+    private GraphCommandNode l4PostScore;
+    private GraphCommandNode prepAlgaeIntake;
+    private GraphCommandNode prepAlgaeL2;
+    private GraphCommandNode prepAlgaeL3;
+    private GraphCommandNode safeAlgaeTravel;
+    private GraphCommandNode scoreProssesor;
+    private GraphCommandNode prepScoreBarge;
+    private GraphCommandNode scoreBarge;
+    private GraphCommandNode climbPrep;
+    private GraphCommandNode climbReady;
+    private GraphCommandNode cancelled;
+
+
 
     /*
      * Creat a new StateSubsystem
@@ -287,6 +157,165 @@ public class StateMachine extends SubsystemBase {
 
         dashboard = new FlytDashboardV2("StateMachine");
         
+           /*
+     * Graph Command Nodes
+     */
+    startPosition = m_graphCommand.new GraphCommandNode(
+        "StartPosition", 
+        new PrintCommand("Robot is at start position"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+    
+    preCoralIntake = m_graphCommand.new GraphCommandNode(
+        "PreCoralIntake", 
+        new PrintCommand("SendCommand to move into this position, for elevator then when safe move the extension out and rotatation"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    //Set in the main statemachine
+    intakeCoral = m_graphCommand.new GraphCommandNode(
+        "IntakeCoral",
+        new PrintCommand("Turn on the intake, wait until note is detected"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    safeCoralTravel = m_graphCommand.new GraphCommandNode(
+        "SafeCoralTravel",
+        new SafeTravel(diff, elevator, this),
+        setCurrentDriveStateCommand(DriveState.Teleop),
+        reachedElevManiGoalCommand());
+
+    l1Prep = m_graphCommand.new GraphCommandNode(
+        "L1Prep",
+        new PrintCommand("Move elevator to L1 prep position"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    l2Prep = m_graphCommand.new GraphCommandNode(
+        "L2Prep",
+        new PrintCommand("Move elevator to L2 prep position"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    l3Prep = m_graphCommand.new GraphCommandNode(
+        "L3Prep",
+        new PrintCommand("Move elevator to L3 prep position"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    l4Prep = m_graphCommand.new GraphCommandNode(
+        "L4Prep",
+        new PrintCommand("Move elevator to L4 prep position"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    scoreL1 = m_graphCommand.new GraphCommandNode(
+        "ScoreL1",
+        new PrintCommand("Get into final position and wait for the score command from driver"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    scoreL2 = m_graphCommand.new GraphCommandNode(
+        "ScoreL2",
+        new PrintCommand("Get into final position and wait for the score command from driver"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    scoreL3 = m_graphCommand.new GraphCommandNode(
+        "ScoreL3",
+        new PrintCommand("Get into final position and wait for the score command from driver"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    scoreL4 = m_graphCommand.new GraphCommandNode(
+        "ScoreL4",
+        new PrintCommand("Get into final position and wait for the score command from driver"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    l1PostScore = m_graphCommand.new GraphCommandNode(
+        "L1PostScore",
+        new PrintCommand("Get into safe position before going down to safe travel"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    l2PostScore = m_graphCommand.new GraphCommandNode(
+        "L2PostScore",
+        new PrintCommand("Get into safe position before going down to safe travel"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    l3PostScore = m_graphCommand.new GraphCommandNode(
+        "L3PostScore",
+        new PrintCommand("Get into safe position before going down to safe travel"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    l4PostScore = m_graphCommand.new GraphCommandNode( 
+        "L4PostScore",
+        new PrintCommand("Get into safe position before going down to safe travel"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    prepAlgaeIntake = m_graphCommand.new GraphCommandNode(
+        "PrepAlgaeIntake",
+        new PrintCommand("Get into position to intake algae"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    prepAlgaeL2 = m_graphCommand.new GraphCommandNode(
+        "PrepAlgaeL2",
+        new PrintCommand("Final position before intake algaeL2"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    prepAlgaeL3 = m_graphCommand.new GraphCommandNode(
+        "PrepAlgaeL3",
+        new PrintCommand("Final position before intake algaeL3"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
+
+    safeAlgaeTravel = m_graphCommand.new GraphCommandNode(
+        "SafeAlgaeTravel",
+        new PrintCommand("Get into safe travel with algae position"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    scoreProssesor = m_graphCommand.new GraphCommandNode(
+        "ScoreProssesor",
+        new PrintCommand("Basicaly same as safe travel with algae postion"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    prepScoreBarge = m_graphCommand.new GraphCommandNode(
+        "PrepScoreBarge",
+        new PrintCommand("Get into position to score into barge"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    scoreBarge = m_graphCommand.new GraphCommandNode(
+        "ScoreBarge",
+        new PrintCommand("Final score barge position and wait for driver to hit score"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    climbPrep = m_graphCommand.new GraphCommandNode(
+        "ClimbPrep",
+        new PrintCommand("Get into position to preapare to engage climber out, after which it is enaged"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    climbReady = m_graphCommand.new GraphCommandNode(
+        "ClimbReady",
+        new PrintCommand("Once climber out robot is waiting for driver to hit climb command"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));   
+
+    cancelled = m_graphCommand.new GraphCommandNode(
+        "Cancelled",
+        new PrintCommand("Should cancel all of the running commands, stop the robot and get everything into safe travel position"),
+        new PrintCommand("Nothing"),
+        new PrintCommand("Nothing"));
 
         //Graph Command setup
         m_graphCommand.setGraphRootNode(startPosition); //rood node
@@ -550,10 +579,10 @@ public class StateMachine extends SubsystemBase {
        goalElevManiState = elevManiState;
     }
     public Command reachedDriveGoalCommand(){
-        return Commands.runOnce(() -> atDriveGoal());
+        return Commands.runOnce(() -> reachedDriveGoal());
     }
     public Command reachedElevManiGoalCommand(){
-        return Commands.runOnce(() -> atElevManiGoal());
+        return Commands.runOnce(() -> reachedElevManiGoal());
     }
     public boolean atDriveGoal() {return goalDriveState == driveState;}
     public boolean atElevManiGoal() {return elevManiState == goalElevManiState;}
@@ -652,8 +681,7 @@ public class StateMachine extends SubsystemBase {
             switch (goalDriveState) {
         case Teleop:
             currentDriveCommand = new TeleopDrive(this, drive, pose, driverController);
-            atDriveGoal();
-            setCurrentDriveState(DriveState.Teleop);
+            reachedDriveGoal();
         case FollowPath:
             currentDriveCommand = new FollowPathDrive(this, drive, pose, driverController);
             break;
@@ -665,12 +693,14 @@ public class StateMachine extends SubsystemBase {
             break;
         case ProcessorRelative:
                 currentDriveCommand = new ProcessorRelativeDrive(this, drive, pose, driverController);
+                reachedDriveGoal();
             break;
         case CoralStation:
                 currentDriveCommand = new CoralStationDrive(this, drive, pose, driverController);
             break;
         case ReefRelative:
                 currentDriveCommand = new ReefRelativeDrive(this, drive, pose, driverController);
+                reachedDriveGoal();
             break;
         case ReefAlign:         
                currentDriveCommand = new ReefAlignDrive(this, drive, pose, driverController);
@@ -691,10 +721,10 @@ public class StateMachine extends SubsystemBase {
             switch (goalElevManiState) {
         case StartPosition:
                 //when robot is started and is enabled, auto or teleop, it should instantly go into safe coral travel position
-                setCurrentElevManiState(ElevatorManipulatorState.StartPosition);
-                if(!isDisabled() && getCurrentElevManiState() == ElevatorManipulatorState.StartPosition){
-                    setElevManiGoal(ElevatorManipulatorState.SafeCoralTravel);
-                }
+                // setCurrentElevManiState(ElevatorManipulatorState.StartPosition);
+                // if(!isDisabled() && getCurrentElevManiState() == ElevatorManipulatorState.StartPosition){
+                //     setElevManiGoal(ElevatorManipulatorState.SafeCoralTravel);
+                // }
             break;
         case IntakeCoral:
                 

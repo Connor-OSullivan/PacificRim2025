@@ -141,7 +141,7 @@ public class RobotContainer {
         not_on_manual.and(a_button).and(not_left_stick).onTrue(m_state.setCurrentDriveStateCommand(DriveState.Teleop)); // Set to L1
         not_on_manual.and(b_button).and(not_left_stick).onTrue(m_state.setCurrentDriveStateCommand(DriveState.ReefRelative)); // Set to L2
         not_on_manual.and(y_button).and(not_left_stick).onTrue(m_state.setCurrentDriveStateCommand(DriveState.ProcessorRelative)); // Set to L3
-        not_on_manual.and(x_button).and(not_left_stick).onTrue(m_state.setGoalElevManiCommand(ElevatorManipulatorState.L4)); // Set to L3
+        not_on_manual.and(x_button).and(not_left_stick).onTrue(m_state.setCurrentElevManiStateCommand(ElevatorManipulatorState.Manual)); // Set to L4
         //back_button.onTrue(m_state.cancelCommand()); // Cancel current state  RECHECK
         //start_button.onTrue(m_state.toggleRotationLock()); // Toggle rotation lock for driver controls DO WE NEED THIS
 
